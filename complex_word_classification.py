@@ -39,7 +39,12 @@ def load_file(data_file):
 def all_complex(data_file):
     """Label every word as complex. Evaluate performance on given data set. Print out
     evaluation results."""
-    ## YOUR CODE HERE...
+    #words = load_file[0](data_file)
+    #labels = load_file[1](data_file)
+    # for i in range(len(labels))
+    #   labels[i] = 1
+    #evaluate(words, labels)
+    #return labels
     pass
 
 
