@@ -1,6 +1,6 @@
 import testing as t
 import complex_word_classification as c
-#hi
+#h
 
 dataMAC = "/Users/hopecrisafi/Desktop/Natural Language Processing/data"
 dataPC = "C:/Users/hopec/OneDrive/Desktop/data/complex_words_test_unlabeled.txt"
