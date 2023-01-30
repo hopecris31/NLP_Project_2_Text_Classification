@@ -40,10 +40,9 @@ def all_complex(data_file):
     """Label every word as complex. Evaluate performance on given data set. Print out
     evaluation results."""
     words, labels = load_file(data_file)
-    for i in range(len(labels)):
-        labels[i] = 1
-    evaluate(words, labels)
-    return labels
+    y_pred = [1] * len(words)
+    evaluate(y_pred, labels)
+    return y_pred
 
 
 ### 2.2: Word length thresholding
@@ -51,8 +50,11 @@ def all_complex(data_file):
 def word_length_threshold(training_file, development_file):
     """Find the best length threshold by f-score and use this threshold to classify
     the training and development data. Print out evaluation results."""
-    ## YOUR CODE HERE
-    pass
+    train_words, train_labels = load_file(training_file)
+    dev_words, dev_labels = load_file(development_file)
+    best_threshold = 0
+    best_fscore = 0
+    for threshold in range(1, 13):
 
 
 ### 2.3: Word frequency thresholding
