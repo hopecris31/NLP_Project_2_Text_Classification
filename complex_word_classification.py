@@ -11,11 +11,11 @@ Complete this file for parts 2-4 of the project.
 from collections import defaultdict
 import gzip
 import numpy as np
-from sklearn.naive_bayes import GaussianNB
-from sklearn.linear_model import LogisticRegression
+#from sklearn.naive_bayes import GaussianNB
+#from sklearn.linear_model import LogisticRegression
 
 from syllables import count_syllables
-from nltk.corpus import wordnet as wn
+#from nltk.corpus import wordnet as wn
 
 from evaluation import get_fscore, evaluate
 
@@ -39,13 +39,9 @@ def load_file(data_file):
 def all_complex(data_file):
     """Label every word as complex. Evaluate performance on given data set. Print out
     evaluation results."""
-    #words = load_file[0](data_file)
-    #labels = load_file[1](data_file)
-    # for i in range(len(labels))
-    #   labels[i] = 1
-    #evaluate(words, labels)
-    #return labels
-    pass
+    words, labels = load_file(data_file)
+    predictions = [1] * len(words)
+    evaluate(predictions, labels)
 
 
 ### 2.2: Word length thresholding
@@ -53,8 +49,24 @@ def all_complex(data_file):
 def word_length_threshold(training_file, development_file):
     """Find the best length threshold by f-score and use this threshold to classify
     the training and development data. Print out evaluation results."""
-    ## YOUR CODE HERE
-    pass
+    train_words, train_labels = load_file(training_file)
+    dev_words, dev_labels = load_file(development_file)
+    best_threshold = 0
+    best_fscore = 0
+    for threshold in range(1, 13):
+        train_pred = [1 if len(word) >= threshold else 0 for word in train_words]
+        dev_pred = [1 if len(word) <= threshold else 0 for word in dev_words]
+        current_fscore = get_fscore(train_pred, train_labels)
+        if current_fscore > best_fscore:
+            best_fscore = current_fscore
+    best_train_pred = [1 if len(word) >= best_threshold else 0 for word in train_words]
+    best_dev_pred = [1 if len(word) >= best_threshold else 0 for word in dev_words]
+    print('___')
+    evaluate(best_train_pred, train_labels)
+    print('___')
+    evaluate(best_dev_pred, dev_labels)
+    return best_train_pred, best_dev_pred
+
 
 
 ### 2.3: Word frequency thresholding

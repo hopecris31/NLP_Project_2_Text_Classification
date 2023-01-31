@@ -18,8 +18,8 @@ def get_accuracy(y_pred: list, y_true: list) -> float:
         true_negatives = __get_true_negatives(y_pred, y_true)
         accuracy = (true_positives + true_negatives) / len(y_pred)
         return accuracy
-    except ZeroDivisionError:
-        return 0
+    except:
+        return None
 
 
 def get_precision(y_pred: list, y_true: list):
@@ -31,7 +31,7 @@ def get_precision(y_pred: list, y_true: list):
         true_positives = __get_true_positives(y_pred, y_true)
         false_positives = __get_false_positives(y_pred, y_true)
         return true_positives / (true_positives + false_positives)
-    except ZeroDivisionError:
+    except:
         return None
 
 
@@ -44,7 +44,7 @@ def get_recall(y_pred: list, y_true: list):
         true_positives = __get_true_positives(y_pred, y_true)
         false_negatives = __get_false_negatives(y_pred, y_true)
         return true_positives / (true_positives + false_negatives)
-    except ZeroDivisionError:
+    except:
         return None
 
 
@@ -57,7 +57,7 @@ def get_fscore(y_pred: list, y_true: list):
         precision = get_precision(y_pred, y_true)
         recall = get_recall(y_pred, y_true)
         return (2 * precision * recall) / (precision + recall)
-    except ZeroDivisionError:
+    except:
         return None
 
 
@@ -71,11 +71,22 @@ def evaluate(y_pred: list, y_true: list) -> None:
     precision = get_precision(y_pred, y_true)
     recall = get_recall(y_pred, y_true)
     f_score = get_fscore(y_pred, y_true)
-
-    print("Accuracy: {:.0f}%".format(accuracy * 100))
-    print("Precision: {:.0f}%".format(precision * 100))
-    print("Recall: {:.0f}%".format(recall * 100))
-    print("F-score: {:.0f}%".format(f_score * 100))
+    try:
+        print("Accuracy: {:.0f}%".format(accuracy * 100))
+    except:
+        print("Accuracy: N/A")
+    try:
+        print("Precision: {:.0f}%".format(precision * 100))
+    except:
+        print("Precision: N/A")
+    try:
+        print("Recall: {:.0f}%".format(recall * 100))
+    except:
+        print("Recall: N/A")
+    try:
+        print("F-score: {:.0f}%".format(f_score * 100))
+    except:
+        print("F-score: N/A")
 
 
 ################################
