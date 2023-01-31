@@ -54,7 +54,20 @@ def word_length_threshold(training_file, development_file):
     dev_words, dev_labels = load_file(development_file)
     best_threshold = 0
     best_fscore = 0
-    for threshold in range(1, 13):
+    for threshold in range(1, 20):
+        y_train_pred = [1 if len(word) >= threshold else 0 for word in train_words]
+        y_dev_pred = [1 if len(word) >= threshold else 0 for word in dev_words]
+        fscore = get_fscore(y_train_pred, train_labels)
+        if fscore > best_fscore:
+            best_fscore = fscore
+            best_threshold = threshold
+    print("Best threshold: {}".format(best_threshold))
+    print("Best f-score: {}".format(best_fscore))
+    y_train_pred = [1 if len(word) >= best_threshold else 0 for word in train_words]
+    y_dev_pred = [1 if len(word) >= best_threshold else 0 for word in dev_words]
+    evaluate(y_train_pred, train_labels)
+    evaluate(y_dev_pred, dev_labels)
+    return y_train_pred, y_dev_pred
 
 
 ### 2.3: Word frequency thresholding
