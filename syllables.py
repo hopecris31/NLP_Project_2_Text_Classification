@@ -26,7 +26,7 @@ def count_syllables(word):
         if doubleAndtripple_1 > 1 or len(re.findall(r'[eaoui][^eaoui]',word)) > 1 :
             if word[-3:] == "ted" or word[-3:] == "tes" or word[-3:] == "ses" or word[-3:] == "ied" or word[-3:] == "ies" :
                 pass
-            else :
+            else:
                 disc+=1
  
     #3) discard trailing "e", except where ending is "le"   
@@ -34,7 +34,7 @@ def count_syllables(word):
     if word[-1:] == "e" :
         if word[-2:] == "le" and word not in le_except :
             pass 
-        else :
+        else:
             disc+=1
  
     #4) check if consecutive vowels exists, triplets or pairs, count them as one. 

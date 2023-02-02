@@ -22,7 +22,7 @@ def get_accuracy(y_pred: list, y_true: list) -> float:
         return None
 
 
-def get_precision(y_pred: list, y_true: list):
+def get_precision(y_pred, y_true):
     """Calculate the precision of the predicted labels.
     y_pred: list predicted labels
     y_true: list of corresponding true labels
@@ -35,7 +35,7 @@ def get_precision(y_pred: list, y_true: list):
         return None
 
 
-def get_recall(y_pred: list, y_true: list):
+def get_recall(y_pred, y_true):
     """Calculate the recall of the predicted labels.
     y_pred: list predicted labels
     y_true: list of corresponding true labels
@@ -56,6 +56,8 @@ def get_fscore(y_pred: list, y_true: list):
     try:
         precision = get_precision(y_pred, y_true)
         recall = get_recall(y_pred, y_true)
+        if precision == 0 and recall == 0:
+            return 0
         return (2 * precision * recall) / (precision + recall)
     except:
         return None
