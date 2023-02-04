@@ -58,9 +58,9 @@ def word_length_threshold(training_file, development_file):
     dev_words, dev_labels = load_file(development_file)
     best_threshold = 0
     best_fscore = 0
-    for threshold in range(1, 13):
-        dev_pred = [1 if len(word) >= threshold else 0 for word in dev_words]
-        current_fscore = get_fscore(dev_pred, dev_labels)
+    for threshold in range(1, 20):
+        train_pred = [1 if len(word) >= threshold else 0 for word in train_words]
+        current_fscore = get_fscore(train_pred, train_labels)
         if current_fscore > best_fscore:
             best_fscore = current_fscore
             best_threshold = threshold
@@ -73,8 +73,6 @@ def word_length_threshold(training_file, development_file):
     print('___')
     evaluate(best_dev_pred, dev_labels)
     return best_train_pred, best_dev_pred
-
-
 
 
 ### 2.3: Word frequency thresholding
@@ -92,6 +90,7 @@ def load_ngram_counts(ngram_counts_file):
                 counts[token] = int(count)
     return counts
 
+
 def word_frequency_threshold(training_file, development_file, counts: dict):
     """Find the best frequency threshold by f-score and use this
     threshold to classify the training and development data. Print out
@@ -102,8 +101,8 @@ def word_frequency_threshold(training_file, development_file, counts: dict):
     best_threshold = 0
     best_fscore = 0
     for threshold in range(1, 5000):
-        dev_pred = [1 if counts[word] >= threshold else 0 for word in dev_words]
-        current_fscore = get_fscore(dev_pred, dev_labels)
+        train_pred = [1 if counts[word] >= threshold else 0 for word in train_words]
+        current_fscore = get_fscore(train_pred, train_labels)
         if current_fscore > best_fscore:
             best_fscore = current_fscore
             best_threshold = threshold
@@ -116,7 +115,6 @@ def word_frequency_threshold(training_file, development_file, counts: dict):
     print('___')
     evaluate(best_dev_pred, dev_labels)
     return best_train_pred, best_dev_pred
-
 
 
 ### 3.1: Naive Bayes
@@ -216,6 +214,7 @@ def decision_tree(training_file, development_file):
 
     return train_pred, dev_pred
 
+
 def support_vector_machine(training_file, development_file):
     train_words, train_labels = load_file(training_file)
     dev_words, dev_labels = load_file(development_file)
@@ -243,12 +242,6 @@ def support_vector_machine(training_file, development_file):
             incorrectly_classified.add(train_words[i])
         else:
             correctly_classified.add(train_words[i])
-    #
-    # index = 0
-    # for prediction in x_pred:
-    #     if x_pred[index] != train_y[index]:
-    #         print(words[index])
-    #     index += 1
 
     print("Miss-Classified Words:")
     print(incorrectly_classified)
@@ -261,25 +254,8 @@ def support_vector_machine(training_file, development_file):
     evaluate(dev_pred, dev_labels_np)
 
     return train_pred, dev_pred
-#get_fscore(train_pred, train_labels)
 
-def get_fscore_word(y_pred: int, y_true: int, word: str, f1_scores_dict: dict):
-    """Calculate the f-score of the predicted labels and store the result in a dictionary.
-    y_pred: list predicted labels
-    y_true: list of corresponding true labels
-    word: string corresponding to the word for which f-score is calculated
-    f1_scores_dict: dictionary to store the word and its f-score
-    """
-    try:
-        precision = get_precision(y_pred, y_true)
-        recall = get_recall(y_pred, y_true)
-        if precision == 0 and recall == 0:
-            f1_scores_dict[word] = 0
-        else:
-            f1_score = (2 * precision * recall) / (precision + recall)
-            f1_scores_dict[word] = f1_score
-    except:
-        f1_scores_dict[word] = None
+
 def random_forest(training_file, development_file):
     train_words, train_labels = load_file(training_file)
     dev_words, dev_labels = load_file(development_file)
@@ -328,6 +304,7 @@ def baselines(training_file, development_file, counts):
     print("min ngram counts:", min(counts.values()))
     word_frequency_threshold(training_file, development_file, counts)
 
+
 def classifiers(training_file, development_file, counts):
     print("\n========== Classifiers ===========\n")
 
@@ -350,6 +327,7 @@ def classifiers(training_file, development_file, counts):
     print("\nMy classifier: Random Forest")
     print("-----------")
     random_forest(training_file, development_file)
+
 
 if __name__ == "__main__":
     training_file = "/Users/hopecrisafi/Desktop/Natural Language Processing/data/complex_words_training.txt"
@@ -389,6 +367,3 @@ if __name__ == "__main__":
             file.write(str(label) + "\n")
 
     file.close()
-
-
-
